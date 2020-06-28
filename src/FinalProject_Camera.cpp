@@ -132,7 +132,7 @@ int main(int argc, const char *argv[])
         bVis = true;
         if(bVis)
         {
-            show3DObjects((dataBuffer.end()-1)->boundingBoxes, cv::Size(4.0, 20.0), cv::Size(2000, 2000), true);
+            show3DObjects((dataBuffer.end()-1)->boundingBoxes, cv::Size(4.0, 20.0), cv::Size(900, 400), true);
         }
         bVis = false;
 
@@ -158,11 +158,11 @@ int main(int argc, const char *argv[])
         }
         else if (detectorType.compare("HARRIS") == 0)
         {
-            detKeypointsHarris(keypoints, imgGray, detectorTime, false);
+            detKeypointsHarris(keypoints, imgGray, false);
         }
         else
         {
-            detKeypointsModern(keypoints, imgGray, detectorTime, detectorType, false);
+            detKeypointsModern(keypoints, imgGray, detectorType, false);
         }
 
         // optional : limit number of keypoints (helpful for debugging and learning)
