@@ -156,9 +156,13 @@ int main(int argc, const char *argv[])
         {
             detKeypointsShiTomasi(keypoints, imgGray, false);
         }
+        else if (detectorType.compare("HARRIS") == 0)
+        {
+            detKeypointsHarris(keypoints, imgGray, detectorTime, false);
+        }
         else
         {
-            //...
+            detKeypointsModern(keypoints, imgGray, detectorTime, detectorType, false);
         }
 
         // optional : limit number of keypoints (helpful for debugging and learning)
