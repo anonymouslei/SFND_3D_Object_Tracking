@@ -148,7 +148,22 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
 void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
                      std::vector<LidarPoint> &lidarPointsCurr, double frameRate, double &TTC)
 {
-    // ...
+    double laneWidth = 4.0;
+    vector<double> distPrev, distCurr;
+
+    for (LidarPoint pt : lidarPointsPrev)
+    {
+        distPrev.push_back(pt.x);
+    }
+    for (LidarPoint pt : lidarPointsCurr)
+    {
+        distCurr.push_back(pt.x);
+    }
+
+    double dPrev = getMedian(distPrev);
+    double dCurr = getMedian(distCurr);
+    double dT = 1.0 / frameRate;
+    TTC = dCurr * dT / (dPrev - dCurr); // CVM
 }
 
 
