@@ -149,7 +149,7 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
 {
     // the exercise in Camera -> Lesson 3 -> TTC Camera
     // compute distance ratios between all matched keypoints
-    vector<double> disRatios; // stores the distance ratios for all keypoints between curr. and prev. frame
+    vector<double> distRatios; // stores the distance ratios for all keypoints between curr. and prev. frame
     for (auto it1 = kptMatches.begin(); it1 != kptMatches.end() - 1 ; ++it1)
     { // outer kpt. loop
         // get current keypoint and its matched partner in the prev. frame
@@ -164,6 +164,10 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
             // get next keypoint and its matched partner in the prev. frame
             cv::KeyPoint kpInnerCurr = kptsCurr.at(it2->trainIdx);
             cv::KeyPoint kpInnerPrev = kptsCurr.at(it2->queryIdx);
+
+            // compute distances and distance ratios
+            double distCurr = cv::norm(kpOuterCurr.pt - kpInnerCurr.pt);
+            double distPrev = cv::norm(kpOuterPrev.pt - kpInnerPrev.pt);
 
             if (distPrev > std::numeric_limits<double>::epsilon() && distCurr >= minDist)
             { // avoid division by zero
@@ -213,6 +217,21 @@ void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
 }
 
 
+double getMedian(std::vector<double> v)
+{
+    double median = 0.0;
+    size_t n = v.size();
+    std::sort(v.begin(), v.end());
+    if( n % 2 == 0)
+    {
+        median = (v[n / 2] + v[n/2 - 1]) / 2;
+    }
+    else 
+    {
+        median = v[n / 2];
+    }
+    return median;
+}
 void matchBoundingBoxes(std::vector<cv::DMatch> &matches, std::map<int, int> &bbBestMatches, DataFrame &prevFrame, DataFrame &currFrame)
 {
     // Loop over the matches, to find out by which bboxes the keypoints are enclosed, both on the previous and the current frame.
