@@ -30,7 +30,7 @@ int main(int argc, const char *argv[])
     // create an output filestream object
     std::ofstream resutl;
     // result.open("../res/res.csv", std::fstream::out | std::fstream::app);
-
+    result << "detectorType" << "," << "descriptorType" << "," << "imageIndex" << "," << "TTC Lidar" << "," << endl;
     // data location
     string dataPath = "../";
 
@@ -294,6 +294,8 @@ int main(int argc, const char *argv[])
                     }
                     bVis = false;
 
+                    result << detectorType << "," << descriptorType << "," << imgIndex << "," << ttcLidar << ","
+                           << ttcCamera << endl;
                 } // eof TTC computation
             } // eof loop over all BB matches            
 
